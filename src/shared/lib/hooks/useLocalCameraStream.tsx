@@ -20,11 +20,11 @@ export function useLocalCameraStream() {
       .then((stream) => {
         setLocalStream(stream);
 
-        stream.getVideoTracks().forEach((track) => {
-          track.enabled = false;
-        });
+        stream.getVideoTracks()[0].enabled = false;
       });
+  }, []);
 
+  useEffect(() => {
     return () => {
       if (localStream) {
         localStream.getTracks().forEach((track) => {
@@ -32,7 +32,7 @@ export function useLocalCameraStream() {
         });
       }
     };
-  }, []);
+  }, [localStream]);
 
   return { localStream };
 }

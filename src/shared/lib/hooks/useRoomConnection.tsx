@@ -4,6 +4,8 @@ import { useLocalCameraStream } from '~shared/lib/hooks/useLocalCameraStream.tsx
 import { socket } from '~shared/lib/websocket';
 import { User } from '~entities/users';
 import { sessionService } from '~entities/session';
+import { Message } from '~entities/messages';
+import { Room } from '~entities/rooms';
 
 type UserRTCData = {
   muted: boolean;
@@ -14,6 +16,12 @@ type UserRTCData = {
 };
 
 type RoomUser = User & UserRTCData;
+
+type RoomData = {
+  model: Room;
+  users: RoomUser[];
+  messages: Message[];
+}
 
 type PeerConnectionData = {
   peerConnection: RTCPeerConnection;
@@ -47,10 +55,19 @@ type ParticipantLeftData = {
   socketId: string;
 }
 
+type MessageData = {
+  message: Message;
+}
+
+type DeletedMessageData = {
+  messageId: number;
+}
+
 const iceServers = [{ urls: 'stun:stun2.1.google.com:19302' }];
 
-export function useRoomConnection() {
+export function useRoomConnection(password: string | null = null) {
   const [mediaStreams, setMediaStreams] = useState<Record<string, MediaStream>>({});
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const peers = useRef<Map<string, PeerConnectionData>>(new Map());
 
@@ -86,16 +103,6 @@ export function useRoomConnection() {
         return;
       }
 
-      for (const track of streams[0].getTracks()) {
-        track.onmute = () => {
-          if (track.kind === 'audio') {
-            console.log('audio muted');
-          } else {
-            console.log('video muted');
-          }
-        };
-      }
-
       setMediaStreams((prev) => {
         return {
           ...prev,
@@ -107,21 +114,8 @@ export function useRoomConnection() {
     };
 
     localStream.getTracks().forEach((track) => {
-      if (track.kind === 'video') {
-        track.enabled = false;
-      }
-
       connection.addTrack(track, localStream);
     });
-
-    peerHealthcheckInterval.current = setInterval(() => {
-      if (connection.iceConnectionState === 'disconnected') {
-        peers.current.delete(socketId);
-
-        clearInterval(peerHealthcheckInterval.current);
-        peerHealthcheckInterval.current = undefined;
-      }
-    }, 100);
 
     peers.current.set(socketId, { stream: null, peerConnection: connection, ...user });
 
@@ -130,11 +124,9 @@ export function useRoomConnection() {
     }
   }, [localStream]);
 
-  const peerHealthcheckInterval = useRef<NodeJS.Timeout>();
-
   const handleConnection = useCallback(() => {
-    socket.emit('joinRoom', { id: Number(id), user });
-  }, [id, user]);
+    socket.emit('joinRoom', { id: Number(id), user, password });
+  }, [id, user, password]);
 
   const connectPeers = useCallback((participants: RoomUser[]) => {
     for (const participant of participants) {
@@ -219,10 +211,27 @@ export function useRoomConnection() {
     await peerData.peerConnection.setRemoteDescription(answer);
   }, []);
 
+  const handleRoomData = useCallback(async ({ messages }: RoomData) => {
+    setMessages(messages);
+  }, []);
+
+  const handleMessageSent = useCallback(async ({ message }: MessageData) => {
+    setMessages((prev) => {
+      return [message, ...prev];
+    });
+  }, []);
+
+  const handleMessageDeleted = useCallback(async ({ messageId }: DeletedMessageData) => {
+    setMessages((prev) => {
+      return prev.filter((msg) => msg.id !== messageId);
+    });
+  }, []);
+
   useEffect(() => {
     if (localStream) {
       connectRoom();
 
+      socket.on('roomData', handleRoomData);
       socket.on('connect', handleConnection);
       socket.on('participants', connectPeers);
       socket.on('newParticipant', handleNewParticipant);
@@ -231,8 +240,11 @@ export function useRoomConnection() {
       socket.on('offer', sendAnswer);
       socket.on('answer', handleAnswer);
       socket.on('icecandidate', handleIceCandidate);
+      socket.on('message', handleMessageSent);
+      socket.on('messageDeleted', handleMessageDeleted);
 
       return () => {
+        socket.off('roomData', handleRoomData);
         socket.off('connect', handleConnection);
         socket.off('participants', connectPeers);
         socket.off('newParticipant', handleNewParticipant);
@@ -241,9 +253,11 @@ export function useRoomConnection() {
         socket.off('offer', sendAnswer);
         socket.off('answer', handleAnswer);
         socket.off('icecandidate', handleIceCandidate);
+        socket.off('message', handleMessageSent);
+        socket.off('messageDeleted', handleMessageDeleted);
       };
     }
-  }, [localStream, connectRoom, handleConnection, connectPeers, handleNewParticipant, handleParticipantDisconnected, sendOffer, sendAnswer, handleAnswer, handleIceCandidate]);
+  }, [localStream, connectRoom, handleConnection, connectPeers, handleNewParticipant, handleParticipantDisconnected, sendOffer, sendAnswer, handleAnswer, handleIceCandidate, handleRoomData, handleMessageSent, handleMessageDeleted]);
 
-  return { localStream, mediaStreams };
+  return { localStream, mediaStreams, messages };
 }

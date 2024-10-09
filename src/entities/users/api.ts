@@ -2,7 +2,7 @@ import { baseUrl } from '~shared/api';
 import { createJsonMutation, createJsonQuery } from '~shared/lib/fetch';
 import { zodContract } from '~shared/lib/zod';
 import { UserSchema } from './contracts';
-import { BanUserDto, SetUserGameDto, SetUserRoleDto, UserDto } from './types';
+import { SetUserRoleDto, UserDto } from './types';
 
 export async function getAllUsersQuery(
   signal?: AbortSignal,
@@ -89,57 +89,6 @@ export async function removeUserRoleMutation(data: SetUserRoleDto) {
       url: baseUrl('/users/roles'),
       method: 'DELETE',
       body: JSON.stringify(data),
-    },
-    response: {
-      contract: zodContract(UserSchema),
-    },
-  });
-}
-
-export async function addUserGameMutation(data: SetUserGameDto) {
-  return createJsonMutation({
-    request: {
-      url: baseUrl('/users/games'),
-      method: 'POST',
-      body: JSON.stringify(data),
-    },
-    response: {
-      contract: zodContract(UserSchema),
-    },
-  });
-}
-
-export async function removeUserGameMutation(data: SetUserGameDto) {
-  return createJsonMutation({
-    request: {
-      url: baseUrl('/users/games'),
-      method: 'DELETE',
-      body: JSON.stringify(data),
-    },
-    response: {
-      contract: zodContract(UserSchema),
-    },
-  });
-}
-
-export async function banUserMutation(data: BanUserDto) {
-  return createJsonMutation({
-    request: {
-      url: baseUrl('/users/ban'),
-      method: 'POST',
-      body: JSON.stringify(data),
-    },
-    response: {
-      contract: zodContract(UserSchema),
-    },
-  });
-}
-
-export async function unbanUserMutation(id: number) {
-  return createJsonMutation({
-    request: {
-      url: baseUrl(`/users/unban/${id}`),
-      method: 'POST',
     },
     response: {
       contract: zodContract(UserSchema),

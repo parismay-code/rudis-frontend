@@ -1,9 +1,11 @@
 import { useRoomConnection } from '~shared/lib/hooks';
-import './styles.scss';
 import { VideosGrid } from '~widgets/videos-grid';
+import './styles.scss';
 
 export function RoomPage() {
-  const { localStream, mediaStreams } = useRoomConnection();
+  const { localStream, mediaStreams, messages } = useRoomConnection();
+
+  console.log(messages);
 
   return <div className="room">
     <VideosGrid localStream={localStream} mediaStreams={mediaStreams} />

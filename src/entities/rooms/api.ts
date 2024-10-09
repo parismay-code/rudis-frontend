@@ -3,7 +3,7 @@ import { baseUrl } from '~shared/api';
 import { createJsonMutation, createJsonQuery } from '~shared/lib/fetch';
 import { zodContract } from '~shared/lib/zod';
 import { RoomSchema } from './contracts';
-import { JoinRoomDto, RoomDto } from './types';
+import { RoomDto } from './types';
 
 export async function getAllRoomsQuery(signal?: AbortSignal) {
   return createJsonQuery({
@@ -65,34 +65,6 @@ export async function deleteRoomMutation(params: { roomId: number }) {
     request: {
       url: baseUrl(`/rooms/${params.roomId}`),
       method: 'DELETE',
-    },
-    response: {
-      contract: zodContract(z.any()),
-    },
-  });
-}
-
-export async function joinRoomMutation(params: {
-  roomId: number;
-  data: JoinRoomDto;
-}) {
-  return createJsonMutation({
-    request: {
-      url: baseUrl(`/rooms/${params.roomId}/join`),
-      method: 'POST',
-      body: JSON.stringify(params.data),
-    },
-    response: {
-      contract: zodContract(z.any()),
-    },
-  });
-}
-
-export async function leaveRoomMutation(params: { roomId: number }) {
-  return createJsonMutation({
-    request: {
-      url: baseUrl(`/rooms/${params.roomId}/leave`),
-      method: 'POST',
     },
     response: {
       contract: zodContract(z.any()),
