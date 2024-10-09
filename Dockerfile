@@ -14,7 +14,7 @@ FROM node:22-alpine AS build
 
 WORKDIR /usr/src/app
 
-COPY --from=development . .
+COPY --from=development /usr/src/app .
 
 RUN npm run build
 
