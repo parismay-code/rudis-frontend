@@ -1,0 +1,83 @@
+@use '~shared/vars';
+
+.video-block {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 23rem;
+  aspect-ratio: 16/12;
+
+  background: black;
+
+  &__source {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  &-controls {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+
+    &__button {
+      padding: .5rem;
+      outline: none;
+      border: none;
+      border-radius: .2rem;
+
+      background-color: lab(50 42 -55);
+      font-weight: 600;
+      font-size: .6rem;
+
+      cursor: pointer;
+
+      opacity: .5;
+
+      transition: .2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: black;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    opacity: 1;
+
+    &.invisible {
+      opacity: 0;
+    }
+  }
+}

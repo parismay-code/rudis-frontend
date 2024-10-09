@@ -1,0 +1,1 @@
+export { notFoundPageRoute } from './route';

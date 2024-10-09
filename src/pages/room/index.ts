@@ -1,0 +1,1 @@
+export { roomPageRoute } from './route';

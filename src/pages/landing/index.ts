@@ -1,0 +1,1 @@
+export { landingPageRoute } from './route';

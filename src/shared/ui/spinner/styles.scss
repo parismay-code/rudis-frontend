@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  &-small {
+    height: 50px;
+  }
+
+  &-medium {
+    height: 200px;
+  }
+
+  &-large {
+    height: 400px;
+  }
+
+  &-full {
+    height: 100vh;
+  }
+}

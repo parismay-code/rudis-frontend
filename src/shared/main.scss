@@ -1,0 +1,57 @@
+@use './vars';
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Space Grotesk", system-ui, -apple-system, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: vars.$font-size-xs;
+  color: white;
+
+  background-color: vars.$color-black;
+
+  @media (min-width: vars.$breakpoint-s) {
+    font-size: vars.$font-size-s;
+  }
+
+  @media (min-width: vars.$breakpoint-m) {
+    font-size: vars.$font-size-m;
+  }
+
+  @media (min-width: vars.$breakpoint-l) {
+    font-size: vars.$font-size-l;
+  }
+
+  @media (min-width: vars.$breakpoint-xl) {
+    font-size: vars.$font-size-xl;
+  }
+
+  @media (min-width: vars.$breakpoint-2xl) {
+    font-size: vars.$font-size-2xl;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+a,
+a:visited,
+a:active,
+a:link {
+  color: inherit;
+}
+
+.container {
+  width: max(90%, min(#{vars.$breakpoint-l}, 100%));
+  margin: 0 auto;
+}

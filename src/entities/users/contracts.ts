@@ -1,0 +1,36 @@
+import { z } from 'zod';
+import { RoleSchema } from '~entities/roles';
+import { GameSchema } from '~entities/games';
+
+export const UserSchema = z.object({
+  id: z.number(),
+  login: z.string(),
+  email: z.string().email(),
+  banned: z.boolean(),
+  banReason: z.string().nullable(),
+  roles: RoleSchema.array(),
+  games: GameSchema.array(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+});
+
+export const UserDtoSchema = z.object({
+  login: z.optional(z.string().max(28)),
+  email: z.optional(z.string()),
+  password: z.optional(z.string().min(8)),
+});
+
+export const SetUserGameDtoSchema = z.object({
+  userId: z.number(),
+  gameId: z.number(),
+});
+
+export const SetUserRoleDtoSchema = z.object({
+  userId: z.number(),
+  roleId: z.number(),
+});
+
+export const BanUserDtoSchema = z.object({
+  userId: z.number(),
+  banReason: z.string(),
+});

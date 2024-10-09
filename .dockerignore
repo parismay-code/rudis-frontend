@@ -1,0 +1,8 @@
+node_modules
+README.md
+*.tsbuildinfo
+dist
+.dockerignore
+.git
+.idea
+.gitignore
