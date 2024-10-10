@@ -8,7 +8,9 @@ export const MessageSchema = z.object({
     login: z.string(),
     avatar: z.string().nullable(),
   }),
-  reply: z.number(),
+  reply: z.object({
+    id: z.number(),
+  }).nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });

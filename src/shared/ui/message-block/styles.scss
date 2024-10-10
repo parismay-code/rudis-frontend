@@ -1,0 +1,64 @@
+@use '~shared/vars';
+
+.message-block {
+  position: relative;
+
+  padding: .5rem;
+
+  background-color: vars.$color-gray;
+  border-radius: .2rem;
+
+  &-reply {
+    width: 80%;
+    margin: 0 0 1rem 4rem;
+    padding: .5rem .5rem 1rem .5rem;
+
+    color: white;
+
+    background-color: vars.$color-black-opacity;
+    border-top-left-radius: .2rem;
+    border-top-right-radius: .2rem;
+    border-bottom: .2rem solid vars.$color-black;
+  }
+
+  &__text {
+    padding: 0 2rem .5rem 4rem;
+  }
+
+  &-controls {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .3rem .5rem;
+
+    background-color: vars.$color-black-opacity;
+    border-radius: .2rem;
+
+    &__button {
+      outline: none;
+      border: none;
+      background: none;
+
+      height: 1.5rem;
+
+      cursor: pointer;
+
+      opacity: .5;
+
+      transition: .2s;
+
+      &:hover,
+      &.active {
+        opacity: 1;
+      }
+
+      & img {
+        height: 100%;
+      }
+    }
+  }
+}

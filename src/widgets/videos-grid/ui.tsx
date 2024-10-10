@@ -1,24 +1,42 @@
+import { useEffect, useState } from 'react';
 import { VideoBlock } from '~shared/ui/video-block';
+import { MediaStreamData } from '~shared/lib/hooks';
+import { sessionService } from '~entities/session';
+import { User } from '~entities/users';
 import './styles.scss';
 
 type VideosGridProps = {
   localStream: MediaStream | null;
-  mediaStreams: Record<string, MediaStream>;
+  mediaStreams: Record<string, MediaStreamData>;
 }
 
-export function VideosGrid({ localStream, mediaStreams }: VideosGridProps) {
-  return <div className="videos-grid">
-    {localStream && <VideoBlock
-      local
-      mediaStream={localStream}
-      label="Это вы"
-    />}
+type Stream = MediaStreamData & { id: string };
 
-    {Object.entries(mediaStreams).map(([id, stream], key) => {
+export function VideosGrid({ localStream, mediaStreams }: VideosGridProps) {
+  const [streams, setStreams] = useState<Stream[]>([]);
+
+  useEffect(() => {
+    if (localStream) {
+      const user = sessionService.getCache() as User;
+
+      const localStreamData: Stream = { id: 'local', stream: localStream, user: user };
+      const remoteStreamsData: Stream[] = Object.entries(mediaStreams).map(([id, mediaStream]) => {
+        return { id, ...mediaStream };
+      });
+
+      const streams: Stream[] = [localStreamData, ...remoteStreamsData];
+
+      setStreams(streams);
+    }
+  }, [localStream, mediaStreams]);
+
+  return <div className="videos-grid">
+    {streams.map(({ id, stream, user }) => {
       return <VideoBlock
         key={id}
         mediaStream={stream}
-        label={`Это игрок ${key + 1}`}
+        user={user}
+        local={id === 'local'}
       />;
     })}
   </div>;

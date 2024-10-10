@@ -8,14 +8,11 @@ import { Message } from '~entities/messages';
 import { Room } from '~entities/rooms';
 
 type UserRTCData = {
-  muted: boolean;
-  videoEnabled: boolean;
-  role: string | null;
   socketId: string | null;
   disconnected: boolean;
 };
 
-type RoomUser = User & UserRTCData;
+export type RoomUser = User & UserRTCData;
 
 type RoomData = {
   model: Room;
@@ -63,10 +60,15 @@ type DeletedMessageData = {
   messageId: number;
 }
 
+export type MediaStreamData = {
+  stream: MediaStream;
+  user: RoomUser | User;
+}
+
 const iceServers = [{ urls: 'stun:stun2.1.google.com:19302' }];
 
 export function useRoomConnection(password: string | null = null) {
-  const [mediaStreams, setMediaStreams] = useState<Record<string, MediaStream>>({});
+  const [mediaStreams, setMediaStreams] = useState<Record<string, MediaStreamData>>({});
   const [messages, setMessages] = useState<Message[]>([]);
 
   const peers = useRef<Map<string, PeerConnectionData>>(new Map());
@@ -106,7 +108,10 @@ export function useRoomConnection(password: string | null = null) {
       setMediaStreams((prev) => {
         return {
           ...prev,
-          [socketId as string]: streams[0],
+          [socketId as string]: {
+            stream: streams[0],
+            user,
+          },
         };
       });
 
@@ -217,7 +222,7 @@ export function useRoomConnection(password: string | null = null) {
 
   const handleMessageSent = useCallback(async ({ message }: MessageData) => {
     setMessages((prev) => {
-      return [message, ...prev];
+      return [...prev, message];
     });
   }, []);
 

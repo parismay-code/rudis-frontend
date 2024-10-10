@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { MessageSchema } from '~entities/messages';
 
 export const RoomSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string().nullable(),
-  owner: z.number(),
-  messages: MessageSchema.array(),
+  owner: z.object({
+    id: z.number(),
+  }),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });

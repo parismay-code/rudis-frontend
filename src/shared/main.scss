@@ -52,6 +52,13 @@ a:link {
 }
 
 .container {
+  flex-grow: 1;
+
   width: max(90%, min(#{vars.$breakpoint-l}, 100%));
+  height: 100%;
   margin: 0 auto;
+  padding-bottom: 2rem;
+
+  display: flex;
+  flex-direction: column;
 }

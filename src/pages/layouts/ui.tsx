@@ -1,17 +1,17 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { sessionService } from '~entities/session';
-import './styles.scss';
 import { pathKeys } from '~shared/lib/react-router';
+import './styles.scss';
 
 function Layout() {
   return (
-    <>
+    <div className="layout">
       <div className="header">Header</div>
       <div className="container">
         <Outlet />
       </div>
-    </>
+    </div>
   );
 }
 

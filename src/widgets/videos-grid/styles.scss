@@ -1,5 +1,12 @@
 .videos-grid {
+  flex: 1 0 auto;
+
+  height: 100%;
+
+  overflow: auto;
+
   display: flex;
-  align-items: center;
-  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
 }

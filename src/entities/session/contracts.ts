@@ -7,7 +7,6 @@ export const LoginUserDtoSchema = z.object({
 
 export const RegisterUserDtoSchema = z.object({
   login: z.string().min(4, 'Минимальная длина логина - 4 символа').max(28, 'Максимальная длина логина - 28 символов'),
-  email: z.string().email(),
   password: z.string().min(8, 'Минимальная длина пароля - 8 символов').max(20, 'Максимальная длина пароля - 20 символов'),
   passwordConfirmation: z
     .string()

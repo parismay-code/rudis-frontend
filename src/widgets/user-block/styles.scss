@@ -1,0 +1,34 @@
+@use '~shared/vars';
+
+.user-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  &-avatar {
+    width: 3rem;
+    height: 3rem;
+    padding: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: vars.$color-gray;
+
+    border: .2rem solid vars.$color-info;
+    border-radius: 50%;
+
+    &.speaking {
+      background: linear-gradient(45deg, vars.$color-green, vars.$color-grass);
+    }
+
+    &__template {
+      width: 100%;
+      height: 100%;
+
+      background-color: vars.$color-black;
+      border-radius: 50%;
+    }
+  }
+}

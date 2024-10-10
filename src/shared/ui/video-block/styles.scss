@@ -3,81 +3,59 @@
 .video-block {
   position: relative;
 
+  flex: 0 0 20rem;
+
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
-  width: 23rem;
-  aspect-ratio: 16/12;
+  padding: .5rem;
 
-  background: black;
+  background-color: vars.$color-gray;
+  border-radius: .2rem;
 
   &__source {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16/9;
+    background-color: black;
+    border-radius: .2rem;
   }
 
-  &__label {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+  &__data {
+    flex-shrink: 0;
+
+    padding: .5rem 1rem .5rem .5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
   }
 
   &-controls {
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-    padding: 1rem;
-
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 1rem;
 
     &__button {
-      padding: .5rem;
+      height: 1.5rem;
+
       outline: none;
       border: none;
-      border-radius: .2rem;
-
-      background-color: lab(50 42 -55);
-      font-weight: 600;
-      font-size: .6rem;
+      background: none;
 
       cursor: pointer;
 
       opacity: .5;
 
-      transition: .2s;
+      transition: opacity .2s;
 
       &:hover {
         opacity: 1;
       }
-    }
-  }
 
-  &__cover {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: black;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    font-weight: 600;
-
-    opacity: 1;
-
-    &.invisible {
-      opacity: 0;
+      & img {
+        height: 100%;
+      }
     }
   }
 }
