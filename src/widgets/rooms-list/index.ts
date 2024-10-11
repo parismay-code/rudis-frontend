@@ -1,1 +1,1 @@
-export { RoomBlock } from './ui';
+export { RoomsList } from './ui';

@@ -23,7 +23,7 @@ export function Header() {
       {user && <>
         <UserBlock user={user} />
 
-        <button className="header__button header__button_logout" type="button" onClick={() => {
+        <button className="header__button" type="button" onClick={() => {
           localStorage.removeItem('token');
           sessionService.removeCache();
           navigate(pathKeys.landing());
@@ -33,13 +33,13 @@ export function Header() {
       </>}
 
       {!user && <>
-        <button className="header__button header__button_sign-in" type="button" onClick={() => {
+        <button className="header__button" type="button" onClick={() => {
           openPopUp({ Component: LoginPopUp, title: 'Sign In' });
         }}>
           Sign In
         </button>
 
-        <button className="header__button header__button_sign-up" type="button" onClick={() => {
+        <button className="header__button" type="button" onClick={() => {
           openPopUp({ Component: RegisterPopUp, title: 'Sign Up' });
         }}>
           Sign Up

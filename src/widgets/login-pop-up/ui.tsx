@@ -2,6 +2,9 @@ import { ErrorMessage, Field, Form, Formik, useFormikContext } from 'formik';
 import { LoginUserDto, LoginUserDtoSchema, useLoginUserMutation } from '~entities/session';
 import { ErrorHandler } from '~shared/ui/error';
 import { formikContract } from '~shared/lib/zod';
+import { usePopUpStore } from '~shared/lib/pop-up';
+import { RegisterPopUp } from '~widgets/register-pop-up';
+import './styles.scss';
 
 const initialValues: LoginUserDto = {
   login: '',
@@ -11,8 +14,16 @@ const initialValues: LoginUserDto = {
 export function LoginPopUp() {
   const { mutate: login, isPending, isError, error } = useLoginUserMutation();
 
+  const { openPopUp } = usePopUpStore();
+
   return <div className="login-pop-up">
     {isError && <ErrorHandler error={error} />}
+
+    <button className="login-pop-up__register" type="button" onClick={() => {
+      openPopUp({ Component: RegisterPopUp, title: 'Sign Up' });
+    }}>
+      Don't have an account yet?
+    </button>
 
     <Formik
       initialValues={initialValues}

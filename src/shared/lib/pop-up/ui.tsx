@@ -38,7 +38,7 @@ export function PopUp() {
             {trace.length > 1 && (
               <button
                 type="button"
-                className="button tiny"
+                className="pop-up__button"
                 onClick={prevPopUp}
               >
                 Назад
@@ -47,7 +47,7 @@ export function PopUp() {
 
             <button
               type="button"
-              className="button tiny"
+              className="pop-up__button"
               onClick={closePopUp}
             >
               Закрыть

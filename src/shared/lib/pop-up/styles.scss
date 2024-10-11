@@ -48,6 +48,29 @@
     transition: height .2s;
   }
 
+  &__button {
+    outline: none;
+    border: none;
+    border-radius: .2rem;
+
+    padding: .5rem 1rem;
+
+    cursor: pointer;
+
+    background-color: vars.$color-black-opacity;
+
+    font-weight: 700;
+    color: white;
+
+    opacity: .7;
+
+    transition: .2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   &-header {
     display: flex;
     align-items: center;

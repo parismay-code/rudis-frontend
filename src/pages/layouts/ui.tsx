@@ -36,8 +36,6 @@ export function GuestLayout() {
 
   const { openPopUp } = usePopUpStore();
 
-  console.log(params);
-
   useEffect(() => {
     if (params.get('unauthorized')) {
       openPopUp({ Component: LoginPopUp, title: 'Sign In' });
