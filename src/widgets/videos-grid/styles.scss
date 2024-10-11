@@ -1,5 +1,5 @@
 .videos-grid {
-  flex: 1 0 auto;
+  flex: 1 1 100%;
 
   height: 100%;
 
@@ -9,4 +9,8 @@
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 1rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

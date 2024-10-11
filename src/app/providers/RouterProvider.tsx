@@ -11,8 +11,6 @@ import { GenericError } from '~shared/lib/fetch';
 function BubbleError() {
   const error = useRouteError() as GenericError<any>;
 
-  console.log(error);
-
   if (error.errorType === 'NETWORK') {
     return <Navigate to={pathKeys.pageBackendIssues()} />;
   } else if (error) {
@@ -28,21 +26,21 @@ const router = createBrowserRouter([
     children: [
       {
         element: <GenericLayout />,
-        children: [],
-      },
-      {
-        element: <GuestLayout />,
         children: [
           homePageRoute,
           roomPageRoute,
         ],
       },
       {
+        element: <GuestLayout />,
+        children: [
+          landingPageRoute,
+        ],
+      },
+      {
         element: <NakedLayout />,
         children: [
-          // 404, etc routes
           notFoundPageRoute,
-          landingPageRoute,
           unavailableRoute,
         ],
       },

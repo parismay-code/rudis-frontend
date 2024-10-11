@@ -62,3 +62,80 @@ a:link {
   display: flex;
   flex-direction: column;
 }
+
+.form {
+  width: max(50%, min(#{vars.$breakpoint-m}, 100%));
+  margin: 0 auto;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    border: none;
+
+    transition: opacity .2s;
+
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__control {
+    padding: .5rem;
+
+    outline: none;
+    background: none;
+    border: .1rem solid white;
+    border-radius: .5rem;
+
+    color: white;
+    font-size: .8rem;
+    font-family: "Space Grotesk", system-ui, -apple-system, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+    &::placeholder {
+      color: white;
+      opacity: .6;
+      text-transform: none;
+    }
+  }
+
+  &__error {
+    font-size: .6rem;
+    color: red;
+  }
+
+  &__submit {
+    padding: .5rem 2rem;
+
+    border-radius: .5rem;
+
+    background: none;
+    border: .2rem solid white;
+
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+
+    outline: none;
+
+    cursor: pointer;
+
+    opacity: .7;
+    transition: opacity .2s;
+
+    &.filled {
+      background-color: white;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { pathKeys } from '~shared/lib/react-router';
 import { getCurrentUserQuery, loginUserMutation, registerUserMutation } from './api';
 import { LoginUserDto, RegisterUserDto } from './types';
 import { ReactQueryService } from '~shared/lib/react-query';
+import { usePopUpStore } from '~shared/lib/pop-up';
 
 const keys = {
   root: () => ['session'] as const,
@@ -17,11 +18,14 @@ export const sessionService = new ReactQueryService(keys.current, getCurrentUser
 export function useLoginUserMutation() {
   const navigate = useNavigate();
 
+  const { closePopUp } = usePopUpStore();
+
   return useMutation({
     mutationKey: keys.login(),
     mutationFn: (data: LoginUserDto) => loginUserMutation(data),
     onSuccess: async ({ token }) => {
       localStorage.setItem('token', token);
+      closePopUp();
 
       navigate(pathKeys.home());
     },
@@ -31,11 +35,14 @@ export function useLoginUserMutation() {
 export function useRegisterUserMutation() {
   const navigate = useNavigate();
 
+  const { closePopUp } = usePopUpStore();
+
   return useMutation({
     mutationKey: keys.register(),
     mutationFn: (data: RegisterUserDto) => registerUserMutation(data),
     onSuccess: async ({ token }) => {
       localStorage.setItem('token', token);
+      closePopUp();
 
       navigate(pathKeys.home());
     },

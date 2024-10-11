@@ -35,7 +35,7 @@ export function Messages({ messages }: MessagesProps) {
       scrollTimeoutRef.current = setTimeout(() => {
         scrolledRef.current = false;
         scrollTimeoutRef.current = undefined;
-      }, 1000);
+      }, 100);
     }}>
       {messages.map((message) => {
         return <MessageBlock key={message.id} message={message} messages={messages} setReplyId={setReplyId} />;

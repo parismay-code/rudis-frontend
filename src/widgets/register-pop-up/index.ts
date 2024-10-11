@@ -1,0 +1,1 @@
+export { RegisterPopUp } from './ui';
