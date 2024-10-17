@@ -5,9 +5,6 @@ export function baseUrl(path: string) {
   const port = env('VITE_API_PORT', '80');
   const method = port === '443' ? 'https' : 'http';
 
-  console.log(import.meta.env.PROD);
-  console.log(url);
-
   return `${method}://${url}:${port}/api${path}`;
 }
 
